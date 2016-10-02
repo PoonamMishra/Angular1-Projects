@@ -2128,7 +2128,7 @@
       
             // Now plug it into Breeze.
             // Assume em1 is a preexisting EntityManager.
-            var custType = metadataStore.getEntityType("Customer");
+            var custType = metadataStore.getEntityType("Vehicle");
             var countryProp = custType.getProperty("Country");
             // Note that validator is added to a 'DataProperty' validators collection.
             prop.validators.push(countryValidator);
@@ -2139,7 +2139,7 @@
                 return (re.test(value));
             }
       
-            // v in this case will be a Customer entity
+            // v in this case will be a Vehicle entity
             var valFn = function (v) {
                 // This validator only validates US Zip Codes.
                 if ( v.getProperty("Country") === "USA") {
@@ -2153,7 +2153,7 @@
       
             // Now plug it into Breeze.
             // Assume em1 is a preexisting EntityManager.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             // Note that validator is added to an 'EntityType' validators collection.
             custType.validators.push(zipCodeValidator);
         What is commonly needed is a way of creating a parameterized function that will itself
@@ -2420,9 +2420,9 @@
         Returns a standard 'required value' Validator
         @example
             // Assume em1 is a preexisting EntityManager.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var regionProperty - custType.getProperty("Region");
-            // Makes "Region" on Customer a required property.
+            // Makes "Region" on Vehicle a required property.
             regionProperty.validators.push(Validator.required());
             // or to allow empty strings
             regionProperty.validators.push(Validator.required({ allowEmptyStrings: true }););
@@ -2448,9 +2448,9 @@
         Returns a standard maximum string length Validator; the maximum length must be specified
         @example
             // Assume em1 is a preexisting EntityManager.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var regionProperty - custType.getProperty("Region");
-            // Validates that the value of the Region property on Customer will be less than or equal to 5 characters.
+            // Validates that the value of the Region property on Vehicle will be less than or equal to 5 characters.
             regionProperty.validators.push(Validator.maxLength( {maxLength: 5}));
         @method maxLength
         @static
@@ -2471,9 +2471,9 @@
         Returns a standard string length Validator; both minimum and maximum lengths must be specified.
         @example
             // Assume em1 is a preexisting EntityManager.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var regionProperty - custType.getProperty("Region");
-            // Validates that the value of the Region property on Customer will be
+            // Validates that the value of the Region property on Vehicle will be
             // between 2 and 5 characters
             regionProperty.validators.push(Validator.stringLength( {minLength: 2, maxLength: 5});
         @method stringLength
@@ -2498,9 +2498,9 @@
         Returns a standard string dataType Validator.
         @example
             // Assume em1 is a preexisting EntityManager.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var regionProperty - custType.getProperty("Region");
-            // Validates that the value of the Region property on Customer is a string.
+            // Validates that the value of the Region property on Vehicle is a string.
             regionProperty.validators.push(Validator.string());
         @method string
         @static
@@ -2518,10 +2518,10 @@
         Returns a Guid data type Validator.
         @example
             // Assume em1 is a preexisting EntityManager.
-            var custType = em1.metadataStore.getEntityType("Customer");
-            var customerIdProperty - custType.getProperty("CustomerID");
-            // Validates that the value of the CustomerID property on Customer is a Guid.
-            customerIdProperty.validators.push(Validator.guid());
+            var custType = em1.metadataStore.getEntityType("Vehicle");
+            var vehicleIdProperty - custType.getProperty("VehicleID");
+            // Validates that the value of the VehicleID property on Vehicle is a Guid.
+            vehicleIdProperty.validators.push(Validator.guid());
         @method guid
         @static
         @return {Validator} A new Validator
@@ -2540,7 +2540,7 @@
             // Assume em1 is a preexisting EntityManager.
             var eventType = em1.metadataStore.getEntityType("Event");
             var elapsedTimeProperty - eventType.getProperty("ElapsedTime");
-            // Validates that the value of the ElapsedTime property on Customer is a duration.
+            // Validates that the value of the ElapsedTime property on Vehicle is a duration.
             elapsedTimeProperty.validators.push(Validator.duration());
         @method duration
         @static
@@ -2745,9 +2745,9 @@
         Returns a regular expression validator; the expression must be specified
         @example
             // Add validator to a property. Assume em is a preexisting EntityManager.
-            var customerType = em.metadataStore.getEntityType("Customer");
-            var regionProperty = customerType.getProperty("Region");
-            // Validates that the value of Customer.Region is 2 char uppercase alpha.
+            var vehicleType = em.metadataStore.getEntityType("Vehicle");
+            var regionProperty = vehicleType.getProperty("Region");
+            // Validates that the value of Vehicle.Region is 2 char uppercase alpha.
             regionProperty.validators.push(Validator.regularExpression( {expression: '^[A-Z]{2}$'} );
         @method regularExpression
         @static
@@ -2803,9 +2803,9 @@
         > (\d+[-/.\s]?)+\d+
         @example
             // Assume em is a preexisting EntityManager.
-            var customerType = em.metadataStore.getEntityType("Customer");
-            var phoneProperty = customerType.getProperty("phone");
-            // Validates that the value of the Customer.phone property is phone.
+            var vehicleType = em.metadataStore.getEntityType("Vehicle");
+            var phoneProperty = vehicleType.getProperty("phone");
+            // Validates that the value of the Vehicle.phone property is phone.
             phoneProperty.validators.push(Validator.phone());
         @method phone
         @static
@@ -2852,7 +2852,7 @@
             // Register it.
             Validator.register(zipValidator);
             // Add it to a data property. Assume em is a preexisting EntityManager.
-            var custType = em.metadataStore.getEntityType("Customer");
+            var custType = em.metadataStore.getEntityType("Vehicle");
             var zipProperty = custType.getProperty("PostalCode");
             zipProperty.validators.push(zipValidator);
         @method makeRegExpValidator
@@ -3196,7 +3196,7 @@
 
         /**
          Complex arrays are not actually classes, they are objects that mimic arrays. A complex array is collection of
-         complexTypes associated with a data property on a single entity or other complex object. i.e. customer.orders or order.orderDetails.
+         complexTypes associated with a data property on a single entity or other complex object. i.e. vehicle.orders or order.orderDetails.
          This collection looks like an array in that the basic methods on arrays such as 'push', 'pop', 'shift', 'unshift', 'splice'
          are all provided as well as several special purpose methods.
          @class ↈ_complexArray_
@@ -4279,9 +4279,9 @@
         an entities 'complexAspect' property.  This property will be automatically attached when an complex object is created as part of an
         entity via either a query, import or EntityManager.createEntity call.
         @example
-            // assume address is a complex property on the 'Customer' type
-            var aspect = aCustomer.address.complexAspect;
-            // aCustomer === aspect.parent;
+            // assume address is a complex property on the 'Vehicle' type
+            var aspect = aVehicle.address.complexAspect;
+            // aVehicle === aspect.parent;
         @class ComplexAspect
         **/
         var ctor = function (complexObject, parent, parentProperty) {
@@ -4714,7 +4714,7 @@
 
         /**
         Primitive arrays are not actually classes, they are objects that mimic arrays. A primitive array is collection of
-        primitive types associated with a data property on a single entity or complex object. i.e. customer.invoiceNumbers.
+        primitive types associated with a data property on a single entity or complex object. i.e. vehicle.invoiceNumbers.
         This collection looks like an array in that the basic methods on arrays such as 'push', 'pop', 'shift', 'unshift', 'splice'
         are all provided as well as several special purpose methods.
         @class ↈ_primitiveArray_
@@ -4789,7 +4789,7 @@
 
         /**
         Relation arrays are not actually classes, they are objects that mimic arrays. A relation array is collection of
-        entities associated with a navigation property on a single entity. i.e. customer.orders or order.orderDetails.
+        entities associated with a navigation property on a single entity. i.e. vehicle.orders or order.orderDetails.
         This collection looks like an array in that the basic methods on arrays such as 'push', 'pop', 'shift', 'unshift', 'splice'
         are all provided as well as several special purpose methods.
         @class ↈ_relationArray_
@@ -4818,7 +4818,7 @@
         Performs an asynchronous load of all other the entities associated with this relationArray.
         @example
             // assume orders is an empty, as yet unpopulated, relation array of orders
-            // associated with a specific customer.
+            // associated with a specific vehicle.
             orders.load().then(...)
         @method load
         @param [callback] {Function}
@@ -6627,15 +6627,15 @@
         This call may be made before or after the corresponding EntityType has been discovered via
         Metadata discovery.
         @example
-            var Customer = function () {
+            var Vehicle = function () {
                     this.miscData = "asdf";
                 };
-            Customer.prototype.doFoo() {
+            Vehicle.prototype.doFoo() {
                     ...
                 }
             // assume em1 is a preexisting EntityManager;
-            em1.metadataStore.registerEntityTypeCtor("Customer", Customer);
-            // any queries or EntityType.create calls from this point on will call the Customer constructor
+            em1.metadataStore.registerEntityTypeCtor("Vehicle", Vehicle);
+            // any queries or EntityType.create calls from this point on will call the Vehicle constructor
             // registered above.
         @method registerEntityTypeCtor
         @param structuralTypeName {String} The name of the EntityType o0r ComplexType.
@@ -7540,10 +7540,10 @@
         General purpose property set method
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             custType.setProperties( {
                 autoGeneratedKeyType: AutoGeneratedKeyType.Identity;
-                defaultResourceName: "CustomersAndIncludedOrders"
+                defaultResourceName: "VehiclesAndIncludedOrders"
             )};
         @method setProperties
         @param config [object]
@@ -7680,7 +7680,7 @@
         Create a new entity of this type.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var cust1 = custType.createEntity();
             em1.addEntity(cust1);
         @method createEntity
@@ -7837,7 +7837,7 @@
         Adds either an entity or property level validator to this EntityType.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var countryProp = custType.getProperty("Country");
             var valFn = function (v) {
                     if (v == null) return true;
@@ -7877,7 +7877,7 @@
         Returns all of the properties ( dataProperties and navigationProperties) for this EntityType.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var arrayOfProps = custType.getProperties();
         @method getProperties
         @return {Array of DataProperty|NavigationProperty} Array of Data and Navigation properties.
@@ -7890,7 +7890,7 @@
         Returns all of the property names ( for both dataProperties and navigationProperties) for this EntityType.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var arrayOfPropNames = custType.getPropertyNames();
         @method getPropertyNames
         @return {Array of String}
@@ -7903,8 +7903,8 @@
         Returns a data property with the specified name or null.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
-            var customerNameDataProp = custType.getDataProperty("CustomerName");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
+            var vehicleNameDataProp = custType.getDataProperty("VehicleName");
         @method getDataProperty
         @param propertyName {String}
         @return {DataProperty} Will be null if not found.
@@ -7917,8 +7917,8 @@
         Returns a navigation property with the specified name or null.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
-            var customerOrdersNavProp = custType.getDataProperty("Orders");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
+            var vehicleOrdersNavProp = custType.getDataProperty("Orders");
         @method getNavigationProperty
         @param propertyName {String}
         @return {NavigationProperty} Will be null if not found.
@@ -7933,12 +7933,12 @@
         This method also accepts a '.' delimited property path and will return the 'property' at the
         end of the path.
         @example
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var companyNameProp = custType.getProperty("CompanyName");
         This method can also walk a property path to return a property
         @example
             var orderDetailType = em1.metadataStore.getEntityType("OrderDetail");
-            var companyNameProp2 = orderDetailType.getProperty("Order.Customer.CompanyName");
+            var companyNameProp2 = orderDetailType.getProperty("Order.Vehicle.CompanyName");
             // companyNameProp === companyNameProp2
         @method getProperty
         @param propertyPath {String}
@@ -9312,14 +9312,14 @@
         specified EntityType
         @example
             // Assume em1 is a preexisting EntityManager
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var cust1 = custType.createEntity();
-            // next line both sets cust1's 'CustomerId' property but also returns the value
+            // next line both sets cust1's 'VehicleId' property but also returns the value
             var cid1 = em1.generateTempKeyValue(cust1);
             em1.saveChanges().then( function( data) {
               var sameCust1 = data.results[0];
               // cust1 === sameCust1;
-              // but cust1.getProperty("CustomerId") != cid1
+              // but cust1.getProperty("VehicleId") != cid1
               // because the server will have generated a new id
               // and the client will have been updated with this
               // new id.
@@ -9645,11 +9645,11 @@
             Predicate constructor
             @example
                 var p1 = new Predicate("CompanyName", "StartsWith", "B");
-                var query = new EntityQuery("Customers").where(p1); 
+                var query = new EntityQuery("Vehicles").where(p1); 
             or
             @example
                 var p2 = new Predicate("Region", FilterQueryOp.Equals, null);
-                var query = new EntityQuery("Customers").where(p2);
+                var query = new EntityQuery("Vehicles").where(p2);
             @method <ctor> Predicate
             @param property {String} A property name, a nested property name or an expression involving a property name.
             @param operator {FilterQueryOp|String}
@@ -10885,11 +10885,11 @@
 
         /**
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
       
         Usually this constructor will be followed by calls to filtering, ordering or selection methods
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
                 .where("CompanyName", "startsWith", "C")
                 .orderBy("Region");
       
@@ -10998,10 +10998,10 @@
         Specifies the resource to query for this EntityQuery.
         @example
             var query = new EntityQuery()
-                .from("Customers");
+                .from("Vehicles");
         is the same as
         @example
-            var query = new EntityQuery("Customers");
+            var query = new EntityQuery("Vehicles");
         @method from
         @param resourceName {String} The resource to query.
         @return {EntityQuery}
@@ -11016,10 +11016,10 @@
         /**
         This is a static version of the "from" method and it creates a 'base' entityQuery for the specified resource name.
         @example
-            var query = EntityQuery.from("Customers");
+            var query = EntityQuery.from("Vehicles");
         is the same as
         @example
-            var query = new EntityQuery("Customers");
+            var query = new EntityQuery("Vehicles");
         @method from
         @static
         @param resourceName {String} The resource to query.
@@ -11036,7 +11036,7 @@
         @example
             var query = new EntityQuery()
               .from("MyCustomMethod")
-              .toType("Customer")
+              .toType("Vehicle")
       
         @method toType
         @param entityType {String|EntityType} The top level entityType that this query will return.  This method is only needed when a query returns a json result that
@@ -11054,20 +11054,20 @@
         Returns a new query with an added filter criteria; Can be called multiple times which means to 'and' with any existing
         Predicate or can be called with null to clear all predicates.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
                       .where("CompanyName", "startsWith", "C");
         This can also be expressed using an explicit {{#crossLink "FilterQueryOp"}}{{/crossLink}} as
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
                 .where("CompanyName", FilterQueryOp.StartsWith, "C");
         or a preconstructed {{#crossLink "Predicate"}}{{/crossLink}} may be used
         @example
             var pred = new Predicate("CompanyName", FilterQueryOp.StartsWith, "C");
-            var query = new EntityQuery("Customers").where(pred);
+            var query = new EntityQuery("Vehicles").where(pred);
         Predicates are often useful when you want to combine multiple conditions in a single filter, such as
         @example
             var pred = Predicate.create("CompanyName", "startswith", "C").and("Region", FilterQueryOp.Equals, null);
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where(pred);
         @example
         More complicated queries can make use of nested property paths
@@ -11076,11 +11076,11 @@
               .where("Category.CategoryName", "startswith", "S");
         or OData functions - A list of valid OData functions can be found within the {{#crossLink "Predicate"}}{{/crossLink}} documentation.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where("toLower(CompanyName)", "startsWith", "c");
         or to be even more baroque
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where("toUpper(substring(CompanyName, 1, 2))", FilterQueryOp.Equals, "OM");
         @method where
         @param predicate {Predicate|property|property path, operator, value} Can be either
@@ -11117,12 +11117,12 @@
         Returns a new query that orders the results of the query by property name.  By default sorting occurs is ascending order, but sorting in descending order is supported as well.
         OrderBy clauses may be chained.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .orderBy("CompanyName");
       
         or to sort across multiple properties
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .orderBy("Region, CompanyName");
       
         Nested property paths are also supported
@@ -11132,12 +11132,12 @@
       
         Sorting in descending order is supported via the addition of ' desc' to the end of any property path.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .orderBy("CompanyName desc");
       
         or
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .orderBy("Region desc, CompanyName desc");
         @method orderBy
         @param propertyPaths {String|Array of String} A comma-separated (',') string of property paths or an array of property paths.
@@ -11160,12 +11160,12 @@
         /**
         Returns a new query that orders the results of the query by property name in descending order.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .orderByDesc("CompanyName");
       
         or to sort across multiple properties
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .orderByDesc("Region, CompanyName");
       
         Nested property paths are also supported
@@ -11193,26 +11193,26 @@
         @example
         Simple data properties can be projected
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where("CompanyName", "startsWith", "C")
               .select("CompanyName");
         This will return an array of objects each with a single "CompanyName" property of type string.
         A similar query could return a navigation property instead
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where("CompanyName", "startsWith", "C")
               .select("Orders");
         where the result would be an array of objects each with a single "Orders" property that would itself be an array of "Order" entities.
         Composite projections are also possible:
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where("CompanyName", "startsWith", "C")
               .select("CompanyName, Orders");
         As well as projections involving nested property paths
         @example
             var query = EntityQuery("Orders")
-              .where("Customer.CompanyName", "startsWith", "C")
-              .select("Customer.CompanyName, Customer, OrderDate");
+              .where("Vehicle.CompanyName", "startsWith", "C")
+              .select("Vehicle.CompanyName, Vehicle, OrderDate");
         @method select
         @param propertyPaths {String|Array of String} A comma-separated (',') string of property paths or an array of property paths.
         If 'propertyPaths' is either null or omitted then any existing projection on the query is removed.
@@ -11228,7 +11228,7 @@
         Returns a new query that skips the specified number of entities when returning results.
         Any existing 'skip' can be cleared by calling 'skip' with no arguments.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where("CompanyName", "startsWith", "C")
               .skip(5);
         @method skip
@@ -11245,7 +11245,7 @@
         Returns a new query that returns only the specified number of entities when returning results. - Same as 'take'.
         Any existing 'top' can be cleared by calling 'top' with no arguments.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .top(5);
         @method top
         @param count {Number} The number of entities to return.
@@ -11261,7 +11261,7 @@
         Returns a new query that returns only the specified number of entities when returning results - Same as 'top'.
         Any existing take can be cleared by calling take with no arguments.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .take(5);
         @method take
         @param count {Number} The number of entities to return.
@@ -11278,18 +11278,18 @@
         Returns a new query that will return related entities nested within its results. The expand method allows you to identify related entities, via navigation property
         names such that a graph of entities may be retrieved with a single request. Any filtering occurs before the results are 'expanded'.
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .where("CompanyName", "startsWith", "C")
               .expand("Orders");
-        will return the filtered customers each with its "Orders" properties fully resolved.
+        will return the filtered vehicles each with its "Orders" properties fully resolved.
         Multiple paths may be specified by separating the paths by a ','
         @example
             var query = new EntityQuery("Orders")
-              .expand("Customer, Employee")
+              .expand("Vehicle, Employee")
         and nested property paths my be specified as well
         @example
             var query = new EntityQuery("Orders")
-              .expand("Customer, OrderDetails, OrderDetails.Product")
+              .expand("Vehicle, OrderDetails, OrderDetails.Product")
         @method expand
         @param propertyPaths {String|Array of String} A comma-separated list of navigation property names or an array of navigation property names. Each Navigation Property name can be followed
         by a '.' and another navigation property name to enable identifying a multi-level relationship.
@@ -11336,11 +11336,11 @@
         query with only the 'where'/'filter' clauses applied, i.e. without any 'skip'/'take' operators applied. For local queries this clause is ignored.
       
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .take(20)
               .orderBy("CompanyName")
               .inlineCount(true);
-        will return the first 20 customers as well as a count of all of the customers in the remote store.
+        will return the first 20 vehicles as well as a count of all of the vehicles in the remote store.
       
         @method inlineCount
         @param enabled {Boolean=true} Whether or not inlineCount capability should be enabled. If this parameter is omitted, true is assumed.
@@ -11364,7 +11364,7 @@
         will not be coerced into entities but will instead look like raw javascript projections. i.e. simple javascript objects.
       
         @example
-            var query = new EntityQuery("Customers")
+            var query = new EntityQuery("Vehicles")
               .take(20)
               .orderBy("CompanyName")
               .noTracking(true);
@@ -11578,18 +11578,18 @@
         Static method tht creates an EntityQuery that will allow 'requerying' an entity or a collection of entities by primary key. This can be useful
         to force a requery of selected entities, or to restrict an existing collection of entities according to some filter.
         @example
-            // assuming 'customers' is an array of 'Customer' entities retrieved earlier.
-            var customersQuery = EntityQuery.fromEntities(customers);
+            // assuming 'vehicles' is an array of 'Vehicle' entities retrieved earlier.
+            var vehiclesQuery = EntityQuery.fromEntities(vehicles);
         The resulting query can, of course, be extended
         @example
-            // assuming 'customers' is an array of 'Customer' entities retrieved earlier.
-            var customersQuery = EntityQuery.fromEntities(customers)
+            // assuming 'vehicles' is an array of 'Vehicle' entities retrieved earlier.
+            var vehiclesQuery = EntityQuery.fromEntities(vehicles)
               .where("Region", FilterQueryOp.NotEquals, null);
         Single entities can requeried as well.
         @example
-            // assuming 'customer' is a 'Customer' entity retrieved earlier.
-            var customerQuery = EntityQuery.fromEntities(customer);
-        will create a query that will return an array containing a single customer entity.
+            // assuming 'vehicle' is a 'Vehicle' entity retrieved earlier.
+            var vehicleQuery = EntityQuery.fromEntities(vehicle);
+        will create a query that will return an array containing a single vehicle entity.
         @method fromEntities
         @static
         @param entities {Entity|Array of Entity} The entities for which we want to create an EntityQuery.
@@ -13103,13 +13103,13 @@
         Attaches an entity to this EntityManager with an  {{#crossLink "EntityState"}}{{/crossLink}} of 'Added'.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var cust1 = custType.createEntity();
             em1.addEntity(cust1);
         Note that this is the same as using 'attachEntity' with an {{#crossLink "EntityState"}}{{/crossLink}} of 'Added'.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var cust1 = custType.createEntity();
             em1.attachEntity(cust1, EntityState.Added);
         @method addEntity
@@ -13124,7 +13124,7 @@
         Attaches an entity to this EntityManager with a specified {{#crossLink "EntityState"}}{{/crossLink}}.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var cust1 = custType.createEntity();
             em1.attachEntity(cust1, EntityState.Added);
         @method attachEntity
@@ -13193,7 +13193,7 @@
         Detaches an entity from this EntityManager.
         @example
             // assume em1 is an EntityManager containing a number of existing entities.
-            // assume cust1 is a customer Entity previously attached to em1
+            // assume cust1 is a vehicle Entity previously attached to em1
             em1.detachEntity(cust1);
             // em1 will now no longer contain cust1 and cust1 will have an
             // entityAspect.entityState of EntityState.Detached
@@ -13844,16 +13844,16 @@
         how a custom key generator can be plugged in.
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var custumer = custType.createEntity();
-            var customerId = em.generateTempKeyValue(custumer);
-            // The 'customer' entity 'CustomerID' property is now set to a newly generated unique id value
-            // This property will change again after a successful save of the 'customer' entity.
+            var vehicleId = em.generateTempKeyValue(custumer);
+            // The 'vehicle' entity 'VehicleID' property is now set to a newly generated unique id value
+            // This property will change again after a successful save of the 'vehicle' entity.
       
             em1.saveChanges().then( function( data) {
                 var sameCust1 = data.results[0];
                 // cust1 === sameCust1;
-                // but cust1.getProperty("CustomerId") != customerId
+                // but cust1.getProperty("VehicleId") != vehicleId
                 // because the server will have generated a new id 
                 // and the client will have been updated with this 
                 // new id.
@@ -13887,14 +13887,14 @@
         or if it has any changes on to a specific {{#crossLink "EntityType"}}{{/crossLink}}
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             if ( em1.hasChanges(custType) {
                 // do something interesting
             }
         or to a collection of {{#crossLink "EntityType"}}{{/crossLink}}s
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var orderType = em1.metadataStore.getEntityType("Order");
             if ( em1.hasChanges( [custType, orderType]) {
                 // do something interesting
@@ -13947,14 +13947,14 @@
         or you can specify that you only want the changes on a specific {{#crossLink "EntityType"}}{{/crossLink}}
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
-            var changedCustomers = em1.getChanges(custType);
+            var custType = em1.metadataStore.getEntityType("Vehicle");
+            var changedVehicles = em1.getChanges(custType);
         or to a collection of {{#crossLink "EntityType"}}{{/crossLink}}s
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var orderType = em1.metadataStore.getEntityType("Order");
-            var changedCustomersAndOrders = em1.getChanges([custType, orderType]);
+            var changedVehiclesAndOrders = em1.getChanges([custType, orderType]);
         @method getChanges
         @param [entityTypes] {String|Array of String|EntityType|Array of EntityType} The {{#crossLink "EntityType"}}{{/crossLink}}s for which 'changed' entities will be found.
         If this parameter is omitted, all EntityTypes are searched. String parameters are treated as EntityType names.
@@ -14000,20 +14000,20 @@
         or you can specify that you only want the changes on a specific {{#crossLink "EntityType"}}{{/crossLink}}
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
-            var customers = em1.getEntities(custType);
+            var custType = em1.metadataStore.getEntityType("Vehicle");
+            var vehicles = em1.getEntities(custType);
         or to a collection of {{#crossLink "EntityType"}}{{/crossLink}}s
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var orderType = em1.metadataStore.getEntityType("Order");
-            var customersAndOrders = em1.getChanges([custType, orderType]);
+            var vehiclesAndOrders = em1.getChanges([custType, orderType]);
         You can also ask for entities with a particular {{#crossLink "EntityState"}}{{/crossLink}} or EntityStates.
         @example
             // assume em1 is an EntityManager containing a number of preexisting entities.
-            var custType = em1.metadataStore.getEntityType("Customer");
+            var custType = em1.metadataStore.getEntityType("Vehicle");
             var orderType = em1.metadataStore.getEntityType("Order");
-            var addedCustomersAndOrders = em1.getEntities([custType, orderType], EntityState.Added);
+            var addedVehiclesAndOrders = em1.getEntities([custType, orderType], EntityState.Added);
         @method getEntities
         @param [entityTypes] {String|Array of String|EntityType|Array of EntityType} The {{#crossLink "EntityType"}}{{/crossLink}}s for which entities will be found.
         If this parameter is omitted, all EntityTypes are searched. String parameters are treated as EntityType names.

@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 
-namespace CustomerManager.App_Start
+namespace VehicleManager.App_Start
 {
     public static class WebApiConfig
     {

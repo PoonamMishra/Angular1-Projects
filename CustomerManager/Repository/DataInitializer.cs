@@ -1,13 +1,13 @@
-﻿using CustomerManager.Model;
+﻿using VehicleManager.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CustomerManager.Repository
+namespace VehicleManager.Repository
 {
     internal static class DataInitializer
     {
-        internal static void Initialize(CustomerManagerContext context)
+        internal static void Initialize(VehicleManagerContext context)
         {
             var random = new Random((int)DateTime.Now.Ticks);
             var randomOrder = new Random((int)DateTime.Now.Ticks);
@@ -19,12 +19,12 @@ namespace CustomerManager.Repository
                 context.States.Add(state);
             }
 
-            //Generate customers and orders
-            for (int i = 0; i < customerNames.Length; i++)
+            //Generate vehicles and orders
+            for (int i = 0; i < vehicleNames.Length; i++)
             {
-                var nameGenderHost = SplitValue(customerNames[i]);
+                var nameGenderHost = SplitValue(vehicleNames[i]);
                 var cityState = SplitValue(citiesStates[i]);
-                var cust = new Customer 
+                var cust = new Vehicle 
                 {
                     Id = i + 1,
                     FirstName = nameGenderHost[0],
@@ -34,29 +34,14 @@ namespace CustomerManager.Repository
                     City = cityState[0],
                     State = sortedStates.Where(state => state.Abbreviation == cityState[1]).SingleOrDefault(),
                     Zip = zip + i,
-                    Gender = (Gender)Enum.Parse(typeof(Gender), nameGenderHost[2])
+                    Gender = (Gender)Enum.Parse(typeof(Gender), nameGenderHost[2]),
+                    VehicleNo = nameGenderHost[4],
+                    EngineNo = nameGenderHost[5],
+                    ChesisNo = nameGenderHost[6],
+                    ModelNo = nameGenderHost[7]
                 };
-                context.Customers.Add(cust);
-
-                //Generate customer orders
-                var numToGrab = random.Next(orders.Count - 1);
-                var custOrders = new List<Order>();
-                for (int j = 0; j < numToGrab; j++)
-                {
-                    var orderPosition = randomOrder.Next(orders.Count - 1);
-                    custOrders.Add(orders[orderPosition]);
-                }
-
-                foreach (var order in custOrders)
-                {
-                    var quantity = randomQuantity.Next(5);
-                    var multiplier = (quantity % 2 == 0) ? 1 : -1;
-                    var custOrder = order.Clone();
-                    custOrder.Quantity = (quantity == 0) ? 1 : quantity;
-                    custOrder.Date = DateTime.Now.AddDays(randomQuantity.Next(30) * multiplier);
-                    custOrder.CustomerId = cust.Id;
-                    context.Orders.Add(custOrder);
-                }
+                context.Vehicles.Add(cust);
+                            
             }
              
         }
@@ -66,31 +51,15 @@ namespace CustomerManager.Repository
             return val.Split(',');
         }
 
-        static string[] customerNames = 
-        { 
-            "Marcus,HighTower,Male,acmecorp.com", 
-            "Jesse,Smith,Female,gmail.com", 
-            "Albert,Einstein,Male,outlook.com", 
-            "Dan,Wahlin,Male,yahoo.com", 
-            "Ward,Bell,Male,gmail.com", 
-            "Brad,Green,Male,gmail.com", 
-            "Igor,Minar,Male,gmail.com", 
-            "Miško,Hevery,Male,gmail.com", 
-            "Michelle,Avery,Female,acmecorp.com", 
-            "Heedy,Wahlin,Female,hotmail.com",
-            "Thomas,Martin,Male,outlook.com",
-            "Jean,Martin,Female,outlook.com",
-            "Robin,Cleark,Female,acmecorp.com",
-            "Juan,Paulo,Male,yahoo.com",
-            "Gene,Thomas,Male,gmail.com",
-            "Pinal,Dave,Male,gmail.com",
-            "Fred,Roberts,Male,outlook.com",
-            "Tina,Roberts,Female,outlook.com",
-            "Cindy,Jamison,Female,gmail.com",
-            "Robyn,Flores,Female,yahoo.com",
-            "Jeff,Wahlin,Male,gmail.com",
-            "Danny,Wahlin,Male,gmail.com",
-            "Elaine,Jones,Female,yahoo.com"
+        static string[] vehicleNames = 
+        {
+            "Fred,Roberts,Male,outlook.com,VEH111,ENG111,CHE111,MODEL111",
+            "Tina,Roberts,Female,outlook.com,VEH222,ENG222,CHE222,MODEL222",
+            "Cindy,Jamison,Female,gmail.com,VEH333,ENG333,CHE333,MODEL333",
+            "Robyn,Flores,Female,yahoo.com,VEH444,ENG444,CHE444,MODEL444",
+            "Jeff,Wahlin,Male,gmail.com,VEH555,ENG555,CHE555,MODEL555",
+            "Danny,Wahlin,Male,gmail.com,VEH666,ENG666,CHE666,MODEL666",
+            "Elaine,Jones,Female,yahoo.com,VEH777,ENG777,CHE777,MODEL777"
         };
         static string[] addresses = 
         { 
@@ -200,26 +169,6 @@ namespace CustomerManager.Repository
         };
 
         static int zip = 85229;
-
-        static List<Order> orders = new List<Order> 
-        {
-            new Order { Product = "Basket", Price =  29.99M , Quantity=  1},
-            new Order { Product = "Yarn", Price =  9.99M, Quantity=  1  },
-            new Order { Product = "Needles", Price =  5.99M, Quantity=  1 },
-            new Order { Product = "Speakers", Price = 499.99M, Quantity =  1 },
-            new Order { Product = "iPod", Price =  399.99M, Quantity=  1 },
-            new Order { Product = "Table", Price =  329.99M, Quantity=  1 },
-            new Order { Product = "Chair", Price =  129.99M, Quantity=  4 },
-            new Order { Product = "Lamp", Price =  89.99M, Quantity=  5 },
-            new Order { Product = "Phone", Price =  599.99M, Quantity=  1},
-            new Order { Product = "Controller", Price =  49.99M, Quantity=  1},
-            new Order { Product = "Pen", Price =  0.99M, Quantity=  1 },
-            new Order { Product = "Lego City", Price =  49.99M, Quantity=  1 },
-            new Order { Product = "Baseball", Price =  9.99M, Quantity=  5 },
-            new Order { Product = "Glove", Price =  99.99M, Quantity=  1 },
-            new Order { Product = "Monitor", Price =  199.99M, Quantity=  2 },
-            new Order { Product = "Camera", Price =  499.99M, Quantity=  1 },
-            new Order { Product = "Picture Frame", Price =  19.99M, Quantity=  5 }
-        };    
+  
     }
 }

@@ -1,5 +1,5 @@
-﻿using CustomerManager.Model;
-using CustomerManager.Repository;
+﻿using VehicleManager.Model;
+using VehicleManager.Repository;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -11,13 +11,13 @@ using Breeze.WebApi2;
 using Breeze.ContextProvider.EF6;
 using Breeze.ContextProvider;
 
-namespace CustomerManager.Controllers
+namespace VehicleManager.Controllers
 {
     [BreezeController]
     public class BreezeDataServiceController : ApiController
     {
-        readonly EFContextProvider<CustomerManagerContext> _contextProvider =
-            new EFContextProvider<CustomerManagerContext>();
+        readonly EFContextProvider<VehicleManagerContext> _contextProvider =
+            new EFContextProvider<VehicleManagerContext>();
 
         public BreezeDataServiceController()
         {
@@ -31,9 +31,9 @@ namespace CustomerManager.Controllers
         }
 
         [HttpGet]
-        public IQueryable<Customer> Customers()
+        public IQueryable<Vehicle> Vehicles()
         {
-            return _contextProvider.Context.Customers.OrderBy(c => c.LastName);
+            return _contextProvider.Context.Vehicles.OrderBy(c => c.LastName);
         }
 
         [HttpGet]
@@ -43,19 +43,23 @@ namespace CustomerManager.Controllers
         }
 
         [HttpGet]
-        public IQueryable<CustomerSummary> CustomersSummary()
+        public IQueryable<VehicleSummary> VehiclesSummary()
         {
-            var query = _contextProvider.Context.Customers.Include("States").OrderBy(c => c.LastName);
+            var query = _contextProvider.Context.Vehicles.Include("States").OrderBy(c => c.LastName);
             return query.Select(c => 
-                new CustomerSummary
+                new VehicleSummary
                 { 
                     Id = c.Id,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     City = c.City,
                     State = c.State,
-                    OrderCount = c.Orders.Count(),
-                    Gender = c.Gender
+                    Gender = c.Gender,
+                    VehicleNo = c.VehicleNo,
+                    EngineNo = c.EngineNo,
+                    ChesisNo = c.ChesisNo,
+                    ModelNo = c.ModelNo
+                    
                 });
         }
 
@@ -65,7 +69,7 @@ namespace CustomerManager.Controllers
             switch (property.ToLower())
             {
                 case "email":
-                    var unique = !_contextProvider.Context.Customers.Any(c => c.Id != id && c.Email == value);
+                    var unique = !_contextProvider.Context.Vehicles.Any(c => c.Id != id && c.Email == value);
                     return new OperationStatus { Status = unique };
                 default:
                     return new OperationStatus();

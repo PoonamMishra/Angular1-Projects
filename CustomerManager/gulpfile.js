@@ -26,9 +26,9 @@ gulp.task('compressScripts', function () {
 });
 
 gulp.task('templates', function () {
-    gulp.src('app/customersApp/views/**/*.html')
+    gulp.src('app/vehiclesApp/views/**/*.html')
         .pipe(plumber())
-        .pipe(templateCache({ root: 'app/customersApp/views', module: 'customersApp' }))
+        .pipe(templateCache({ root: 'app/vehiclesApp/views', module: 'vehiclesApp' }))
         .pipe(gulp.dest(dist));
 });
 

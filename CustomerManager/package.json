@@ -1,6 +1,6 @@
 {
-  "name": "CustomerManagerStandard",
-  "author": "Dan Wahlin",
+  "name": "VehicleManagerStandard",
+  "author": "",
   "version": "1.0.0",
   "dependencies": {
     "express": "4.13.3",

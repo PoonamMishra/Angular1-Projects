@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace CustomerManager.Model
+namespace VehicleManager.Model
 {
     [DebuggerDisplay("Status: {Status}")]
     public class OperationStatus

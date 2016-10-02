@@ -1,5 +1,5 @@
-﻿using CustomerManager.Model;
-using CustomerManager.Repository;
+﻿using VehicleManager.Model;
+using VehicleManager.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +8,25 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
-namespace CustomerManager.Controllers
+namespace VehicleManager.Controllers
 {
     public class DataServiceController : ApiController
     {
-        CustomerRepository _Repository;
+        VehicleRepository _Repository;
 
         public DataServiceController()
         {
-            _Repository = new CustomerRepository();
+            _Repository = new VehicleRepository();
         }
 
         [HttpGet]
         [Queryable]
-        public HttpResponseMessage Customers()
+        public HttpResponseMessage Vehicles()
         {
-            var customers = _Repository.GetCustomers();
-            var totalRecords = customers.Count();
+            var vehicles = _Repository.GetVehicles();
+            var totalRecords = vehicles.Count();
             HttpContext.Current.Response.Headers.Add("X-InlineCount", totalRecords.ToString());
-            return Request.CreateResponse(HttpStatusCode.OK, customers);
+            return Request.CreateResponse(HttpStatusCode.OK, vehicles);
         }
 
         [HttpGet]
@@ -38,10 +38,10 @@ namespace CustomerManager.Controllers
 
         [HttpGet]
         [Queryable]
-        public HttpResponseMessage CustomersSummary()
+        public HttpResponseMessage VehiclesSummary()
         {
             int totalRecords;
-            var custSummary = _Repository.GetCustomersSummary(out totalRecords);
+            var custSummary = _Repository.GetVehiclesSummary(out totalRecords);
             HttpContext.Current.Response.Headers.Add("X-InlineCount", totalRecords.ToString());
             return Request.CreateResponse(HttpStatusCode.OK, custSummary);
         }
@@ -69,20 +69,20 @@ namespace CustomerManager.Controllers
 
         // GET api/<controller>/5
         [HttpGet]
-        public HttpResponseMessage CustomerById(int id)
+        public HttpResponseMessage VehicleById(int id)
         {
-            var customer = _Repository.GetCustomerById(id);
-            return Request.CreateResponse(HttpStatusCode.OK, customer);
+            var vehicle = _Repository.GetVehicleById(id);
+            return Request.CreateResponse(HttpStatusCode.OK, vehicle);
         }
 
         // POST api/<controller>
-        public HttpResponseMessage PostCustomer([FromBody]Customer customer)
+        public HttpResponseMessage PostVehicle([FromBody]Vehicle vehicle)
         {
-            var opStatus = _Repository.InsertCustomer(customer);
+            var opStatus = _Repository.InsertVehicle(vehicle);
             if (opStatus.Status)
             {
-                var response = Request.CreateResponse<Customer>(HttpStatusCode.Created, customer);
-                string uri = Url.Link("DefaultApi", new { id = customer.Id });
+                var response = Request.CreateResponse<Vehicle>(HttpStatusCode.Created, vehicle);
+                string uri = Url.Link("DefaultApi", new { id = vehicle.Id });
                 response.Headers.Location = new Uri(uri);
                 return response;
             }
@@ -90,20 +90,20 @@ namespace CustomerManager.Controllers
         }
 
         // PUT api/<controller>/5
-        public HttpResponseMessage PutCustomer(int id, [FromBody]Customer customer)
+        public HttpResponseMessage PutVehicle(int id, [FromBody]Vehicle vehicle)
         {
-            var opStatus = _Repository.UpdateCustomer(customer);
+            var opStatus = _Repository.UpdateVehicle(vehicle);
             if (opStatus.Status)
             {
-                return Request.CreateResponse<Customer>(HttpStatusCode.Accepted, customer);
+                return Request.CreateResponse<Vehicle>(HttpStatusCode.Accepted, vehicle);
             }
             return Request.CreateErrorResponse(HttpStatusCode.NotModified, opStatus.ExceptionMessage);
         }
 
         // DELETE api/<controller>/5
-        public HttpResponseMessage DeleteCustomer(int id)
+        public HttpResponseMessage DeleteVehicle(int id)
         {
-            var opStatus = _Repository.DeleteCustomer(id);
+            var opStatus = _Repository.DeleteVehicle(id);
 
             if (opStatus.Status)
             {

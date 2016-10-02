@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CustomerManager.Model
+namespace VehicleManager.Model
 {
     public class UserLogin
     {
