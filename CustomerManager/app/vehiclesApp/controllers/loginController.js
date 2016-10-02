@@ -19,6 +19,7 @@
                     return;
                 }
 
+
                 if (status && $routeParams && $routeParams.redirect) {
                     path = path + $routeParams.redirect;
                 }
